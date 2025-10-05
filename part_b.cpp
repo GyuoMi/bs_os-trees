@@ -147,7 +147,17 @@ void treeDelete(Node *&root, Node *z)
         y->left->parent = y;
 
         // update y's size based on it's new children
-        y->size = (y->left ? y->left->size : 0) + (y->right ? y->right->size : 0) + 1;
+        int left_size = 0;
+        if (y->left != nullptr) {
+            left_size = y->left->size;
+        }
+        
+        int right_size = 0;
+        if (y->right != nullptr) {
+            right_size = y->right->size;
+        }
+        
+        y->size = left_size + right_size + 1;    
     }
     decrementAncestors(node_to_update);
 }
@@ -217,7 +227,8 @@ int main(){
     outFile.open("ost_results.csv");
 
     outFile << "n,AvgBuildTime_ms,AvgDestroyTime_ms,AvgSelectTime_ms,AvgRankTime_ms\n";
-    int n_vals[] = {100, 500, 1000, 2000, 5000, 10000} ;
+    // int n_vals[] = {100, 500, 1000, 2000, 5000, 10000, 50000, 100000} ;
+    int n_vals[] = {100000, 500000, 1000000} ;
     int n_trials = 50;
 
     for (int i = 0; i < sizeof(n_vals) / sizeof(n_vals[0]); ++i){
